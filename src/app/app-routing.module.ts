@@ -6,6 +6,13 @@ const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./core/components').then((c) => c.MainLayoutComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./modules/home/home.component').then((c) => c.HomeComponent),
+      },
+    ],
   },
 ];
 
@@ -14,4 +21,5 @@ const routes: Routes = [
 
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
