@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MainLayoutNavbarComponent } from '../main-layout-navbar/main-layout-navbar.component';
-import { FooterComponent } from '../footer/footer.component';
+import { FooterComponent } from '../main-layout-footer/footer.component';
 
 @Component({
   selector: 'tobank-website-app-main-layout',
