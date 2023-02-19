@@ -7,26 +7,16 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/tobank-website-app",
+        "outputPath": "dist/apps/tobank-website-app/browser",
         "index": "./src/index.html",
         "main": "./src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "./tsconfig.app.json",
         "inlineStyleLanguage": "less",
-        "assets": [
-          "./src/favicon.ico",
-          "./src/assets"
-        ],
-        "styles": [
-          "./src/styles.less",
-          "src/assets/css/font.css"
-        ],
+        "assets": ["./src/favicon.ico", "./src/assets"],
+        "styles": ["./src/styles.less", "src/assets/css/font.css"],
         "scripts": []
       },
       "configurations": {
@@ -76,21 +66,14 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "./src/**/*.ts",
-          "./src/**/*.html"
-        ]
+        "lintFilePatterns": ["./src/**/*.ts", "./src/**/*.html"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectName}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
       "options": {
         "jestConfig": "jest.config.ts",
         "passWithNoTests": true
@@ -101,6 +84,57 @@
           "codeCoverage": true
         }
       }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/./server",
+        "main": "server.ts",
+        "tsConfig": "tsconfig.server.json"
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media"
+        },
+        "development": {
+          "optimization": false,
+          "sourceMap": true,
+          "extractLicenses": false
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@nguniversal/builders:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "tobank-website-app:build:development",
+          "serverTarget": "tobank-website-app:server:development"
+        },
+        "production": {
+          "browserTarget": "tobank-website-app:build:production",
+          "serverTarget": "tobank-website-app:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@nguniversal/builders:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "tobank-website-app:build:development",
+          "serverTarget": "tobank-website-app:server:development"
+        },
+        "production": {
+          "browserTarget": "tobank-website-app:build:production",
+          "serverTarget": "tobank-website-app:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
     }
   },
   "tags": []
